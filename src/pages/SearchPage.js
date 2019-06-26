@@ -1,11 +1,11 @@
 import React, { Component } from "react";
-import { getOrganizationsList, getOrganization } from "../API";
+import OrganizationsList from "../components/OrganizationsList";
+import { getOrganizationsList } from "../API";
 
 export default class SearchPage extends Component {
     state = {
-        organizationsList: [],
-        inputValue: "",
-        organization: {}
+        organizations: [],
+        inputValue: ""
     };
 
     handleOnChange = ({ target: { value } }) => {
@@ -19,47 +19,37 @@ export default class SearchPage extends Component {
         getOrganizationsList(inputValue).then(list => {
             console.log(list);
             this.setState({
-                organizationsList: list
-            });
-        });
-    };
-
-    hangleOrganization = login => {
-        getOrganization(login).then(list => {
-            this.setState({
-                organization: list
+                organizations: list
             });
         });
     };
 
     render() {
-        const { inputValue, organizationsList } = this.state;
+        const { inputValue, organizations } = this.state;
+        const { match } = this.props;
         return (
             <div className="container">
-                <input
-                    className="form-control my-4"
-                    type="search"
-                    placeholder="Search"
-                    value={inputValue}
-                    onChange={this.handleOnChange}
-                />
-                <button type="button" onClick={this.hangleOnSearch}>
-                    Search
-                </button>
+                <div className="d-flex my-4">
+                    <input
+                        className="form-control mr-2"
+                        type="search"
+                        placeholder="Search"
+                        value={inputValue}
+                        onChange={this.handleOnChange}
+                    />
+                    <button
+                        type="button"
+                        className="btn btn-warning"
+                        onClick={this.hangleOnSearch}
+                    >
+                        Search
+                    </button>
+                </div>
 
-                <ul>
-                    {organizationsList.length &&
-                        organizationsList.map(organization => (
-                            <li
-                                key={organization.id}
-                                onClick={() =>
-                                    this.hangleOrganization(organization.login)
-                                }
-                            >
-                                {organization.login}
-                            </li>
-                        ))}
-                </ul>
+                <OrganizationsList
+                    organizations={organizations}
+                    match={match}
+                />
             </div>
         );
     }

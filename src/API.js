@@ -6,10 +6,16 @@ const getOrganizationsList = queryStr =>
         .then(res => res.data.items)
         .catch(err => console.log(err));
 
-const getOrganization = queryStr =>
+const getOrganization = org =>
     axios
-        .get(`https://api.github.com/orgs/${queryStr}`)
-        .then(res => console.log(res))
+        .get(`https://api.github.com/orgs/${org}`)
+        .then(res => res.data)
         .catch(err => console.log(err));
 
-export { getOrganizationsList, getOrganization };
+const getMembersOrganization = org =>
+    axios
+        .get(`https://api.github.com/orgs/${org}/members`)
+        .then(res => res.data)
+        .catch(err => console.log(err));
+
+export { getOrganizationsList, getOrganization, getMembersOrganization };
