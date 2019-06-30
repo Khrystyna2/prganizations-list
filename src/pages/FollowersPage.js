@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
+
 import { getFollowersUser } from "../API";
 
 export default class FollowersPage extends Component {
@@ -9,10 +10,9 @@ export default class FollowersPage extends Component {
 
   componentDidMount() {
     const { params } = this.props.match;
-    getFollowersUser(params.login).then(list =>
-      this.setState({
-        followers: list
-      })
+
+    getFollowersUser(params.login).then(followers =>
+      this.setState({ followers })
     );
   }
 
@@ -20,7 +20,7 @@ export default class FollowersPage extends Component {
     const { followers } = this.state;
     return (
       <div className="container">
-        Followers list
+        <h3 className="text-center my-3">Followers list</h3>
         <ul className="list-group my-4">
           {followers &&
             followers.length > 0 &&

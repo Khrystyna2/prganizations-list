@@ -1,6 +1,8 @@
 import React, { Component } from "react";
-import OrganizationsList from "../components/OrganizationsList";
+
 import { getOrganizationsList } from "../API";
+
+import OrganizationsList from "../components/OrganizationsList";
 
 export default class SearchPage extends Component {
   state = {
@@ -8,20 +10,21 @@ export default class SearchPage extends Component {
     inputValue: ""
   };
 
-  handleOnChange = ({ target: { value } }) => {
+  handleOnChange = ({ target: { value } }) =>
     this.setState({
       inputValue: value
     });
-  };
 
-  hangleOnSearch = () => {
+  handleOnSearch = e => {
     const { inputValue } = this.state;
-    getOrganizationsList(inputValue).then(list => {
-      // console.log("list", list);
-      this.setState({
-        organizations: list
-      });
-    });
+
+    e.preventDefault();
+
+    if (inputValue !== "") {
+      getOrganizationsList(inputValue).then(organizations =>
+        this.setState({ organizations, inputValue: "" })
+      );
+    }
   };
 
   render() {
@@ -30,20 +33,18 @@ export default class SearchPage extends Component {
     return (
       <div className="container">
         <div className="d-flex my-4">
-          <input
-            className="form-control mr-2"
-            type="search"
-            placeholder="Search"
-            value={inputValue}
-            onChange={this.handleOnChange}
-          />
-          <button
-            type="button"
-            className="btn btn-warning"
-            onClick={this.hangleOnSearch}
-          >
-            Search
-          </button>
+          <form onSubmit={this.handleOnSearch} className="d-flex w-100">
+            <input
+              className="form-control mr-2"
+              type="search"
+              placeholder="Enter organization"
+              value={inputValue}
+              onChange={this.handleOnChange}
+            />
+            <button type="submit" className="btn btn-warning">
+              Search
+            </button>
+          </form>
         </div>
         {organizations && organizations.length > 0 && (
           <OrganizationsList organizations={organizations} match={match} />

@@ -1,5 +1,7 @@
 import React, { Component } from "react";
+
 import { getOrganizationInfo } from "../API";
+
 import MembersList from "../components/MembersList";
 import Loader from "../components/Loader";
 
@@ -11,6 +13,7 @@ export default class OrganizationPage extends Component {
 
   componentDidMount() {
     const { login } = this.props.match.params;
+
     getOrganizationInfo(login).then(({ members, organization }) => {
       this.setState({ members, organization });
     });
@@ -35,9 +38,9 @@ export default class OrganizationPage extends Component {
                 <h2>{organization.name || organization.login}</h2>
                 <p>{organization.description}</p>
                 <hr />
-                <span>Public gista: {organization.public_gists}</span>
+                <span>Public gists: {organization.public_gists}</span>
                 <br />
-                <span>Public repos: {organization.public_repos}</span>
+                <span>Public repository: {organization.public_repos}</span>
               </div>
             </div>
             <MembersList members={members} />

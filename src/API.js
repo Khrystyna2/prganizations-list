@@ -4,7 +4,7 @@ const getOrganizationsList = queryStr =>
   axios
     .get(`https://api.github.com/search/users?q=type:org%20${queryStr}`)
     .then(res => res.data.items)
-    .catch(err => console.log("eeeeee", err));
+    .catch(err => console.log(err));
 
 const getOrganizationInfo = org => {
   const getOrganization = () => axios.get(`https://api.github.com/orgs/${org}`);
@@ -17,7 +17,7 @@ const getOrganizationInfo = org => {
       organization: res[0].data,
       members: res[1].data
     }))
-    .catch(err => console.error(err));
+    .catch(err => console.log(err));
 };
 
 const getFollowersUser = login =>
@@ -32,9 +32,9 @@ const getFollowingUser = login =>
     .then(res => res.data)
     .catch(err => console.log(err));
 
-const getUser = user =>
+const getUser = login =>
   axios
-    .get(`https://api.github.com/users/${user}`)
+    .get(`https://api.github.com/users/${login}`)
     .then(res => res.data)
     .catch(err => console.log(err));
 

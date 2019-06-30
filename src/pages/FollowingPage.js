@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
+
 import { getFollowingUser } from "../API";
 
 export default class FollowingPage extends Component {
@@ -9,10 +10,9 @@ export default class FollowingPage extends Component {
 
   componentDidMount() {
     const { params } = this.props.match;
-    getFollowingUser(params.login).then(list =>
-      this.setState({
-        following: list
-      })
+
+    getFollowingUser(params.login).then(following =>
+      this.setState({ following })
     );
   }
 
@@ -21,7 +21,7 @@ export default class FollowingPage extends Component {
 
     return (
       <div className="container">
-        Following list
+        <h3 className="text-center my-3">Following list</h3>
         <ul className="list-group my-4">
           {following &&
             following.length > 0 &&

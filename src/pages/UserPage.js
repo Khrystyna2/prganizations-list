@@ -8,13 +8,14 @@ export default class UserPage extends Component {
 
   componentDidMount() {
     const { params } = this.props.match;
-    getUser(params.login).then(list => {
-      // console.log("user", list);
-      this.setState({
-        user: list
-      });
-    });
+
+    getUser(params.login).then(user => this.setState({ user }));
   }
+
+  onBack = () => {
+    const { history } = this.props;
+    history.goBack();
+  };
 
   render() {
     const { user } = this.state;
@@ -31,6 +32,9 @@ export default class UserPage extends Component {
             <br />
             <span>Following: {user.following}</span>
           </div>
+          <button onClick={this.onBack} className="btn btn-primary my-4">
+            Go to back
+          </button>
         </div>
       </div>
     );
